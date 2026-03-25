@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaze-Aware Scatterplot Analysis</title>
+    
+    <!-- External Pure CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Exterior FontAwesome for Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- D3.js for Voronoi & Scatterplot rendering -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+
+    <!-- Ambient Background Effects -->
+    <div class="scatterplot-grid"></div>
+    <div class="gaze-layer"></div>
+
+    <!-- Top Navigation Header -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="header-logo font-mono text-lg">GAZE<span class="text-text" style="color: var(--c-brand);">AWARE </span>SCATTERPLOTS</div>
+            <nav class="header-nav font-mono text-sm">
+                <a href="#abstract">Abstract</a>
+                <a href="#techniques">Techniques</a>
+                <a href="#performance">Performance</a>
+                <a href="#team">Team</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section with Full Background Animation -->
+    <div class="hero-wrapper">
+        <div id="hero-bg-anim" class="hero-bg-anim"></div>
+        <button id="pause-btn" class="pause-btn">
+            <i class="fas fa-pause"></i>
+        </button>
+        
+        <main class="hero container hero-content">
+            <div class="flow-reveal">
+                <span class="font-mono text-sm uppercase text-brand" style="margin-bottom: 1.5rem; display: block;">ETRA 2026</span>
+            </div>
+            
+            <h1 class="text-title flow-reveal delay-100" style="max-width: 900px; margin-bottom: 3rem;">
+                Designing Implicit Gaze-Aware Interactions for Scatterplots
+            </h1>
+            
+            <div class="grid-2 flow-reveal delay-200" style="align-items: end;">
+                <div class="font-mono text-sm text-muted authors">
+                    <p>Tania Sanai Shimabukuro</p>
+                    <p>Feiyang Wang</p>
+                    <p>Mariana Shimabukuro</p>
+                    <p>Christopher Collins</p>
+                    <p style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--c-border);">Ontario Tech University</p>
+                </div>
+                
+                <div>
+                    <p class="text-xl text-muted text-balance" style="max-width: 500px; margin-bottom: 2rem;">
+                        A task-driven approach to adapting visualization interfaces in real time, matching user attention without requiring explicit input.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#" target="_blank" class="btn btn-primary">
+                            Read Paper <i class="fas fa-arrow-right" style="margin-left: 0.5rem; font-size: 0.85rem;"></i>
+                        </a>
+                        <a href="#" target="_blank" class="btn btn-secondary">
+                            <i class="fab fa-github" style="margin-right: 0.5rem; font-size: 1.1rem;"></i> Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Formal Abstract -->
+    <section id="abstract" class="section container container-sm" style="padding-bottom: 2rem;">
+        <div class="flow-reveal">
+            <span class="font-mono text-sm uppercase text-brand" style="margin-bottom: 1.5rem; display: block;">Abstract</span>
+            <p class="text-lg text-muted text-balance" style="line-height: 1.8;">
+                We present a task-driven approach to designing implicit gaze-aware interactions for scatterplot analysis. Building on Sarikaya and Gleicher’s taxonomy of scatterplot tasks, we focus on two foundational object-centric tasks—Identify Object and Verify Object—to guide the development of real-time, gaze-responsive interventions. Our design uses a gaze-based interest model to adapt the visualization interface without requiring explicit input from the user. We contribute four interaction techniques: rendering order, reference axes, hover speed, and click accuracy. These techniques respond passively to user attention, aiming to reduce occlusion, improve feedback responsiveness, and support more precise interactions. A user study with 24 participants demonstrates that gaze-aware adaptations can improve task efficiency and reduce cognitive load. Hover Speed emerged as the most effective and preferred technique, while other interventions showed promise with opportunities for refinement. Our findings underscore the potential of real-time attention modelling in visualization systems and motivate future research on adaptive, user-aware interaction design.
+            </p>
+        </div>
+    </section>
+
+    <!-- Teaser Poster Image -->
+    <section class="section no-border container">
+        <div class="image-placeholder aspect-teaser image-mask flow-reveal">
+            <p class="font-mono text-muted" style="margin-bottom: 0.5rem;">images/teaser.jpg</p>
+            <p class="text-sm text-muted text-balance" style="text-align: center; max-width: 400px;">Overview of the gaze-aware interaction workflow. Gaze input informs an interest model, driving the system to adapt visualization behavior.</p>
+        </div>
+    </section>
+
+    <!-- Core Concept -->
+    <section class="section container container-sm">
+        <div class="flow-reveal">
+            <h2 class="text-section" style="margin-bottom: 3rem;">
+                Scatterplots are foundational, yet visually demanding. We mitigate visual overload using human visual attention.
+            </h2>
+        </div>
+        <div class="grid-2 flow-reveal delay-100" style="gap: 2rem;">
+            <p class="text-lg text-muted">
+                Building on scatterplot task taxonomies, we focus on identifying and verifying objects to develop real-time, gaze-responsive interventions. Our gaze-based interest model infers intent directly from eye movements, predicting interest rather than just tracking positions.
+            </p>
+            <p class="text-lg text-muted">
+                We introduce four core interactions: rendering order, reference axes, hover speed, and click accuracy. These techniques passively respond to user attention, reducing occlusion and offering greater precision—demonstrating how implicit interaction can drastically reduce cognitive load.
+            </p>
+        </div>
+    </section>
+
+    <!-- Techniques Grid -->
+    <section id="techniques" class="section container">
+        <div class="flow-reveal" style="margin-bottom: 4rem;">
+            <span class="font-mono text-sm uppercase text-brand" style="margin-bottom: 1.5rem; display: block;">Techniques</span>
+            <h2 class="text-title">Four Implicit Interactions</h2>
+        </div>
+
+        <!-- Technique 1 -->
+        <div class="technique-row flow-reveal">
+            <div>
+                <span class="technique-num font-mono text-brand">01 / Rendering Order</span>
+                <h3 class="text-subtitle" style="margin-bottom: 1.5rem;">Reordering points to reduce occlusion.</h3>
+                <p class="text-lg text-muted">
+                    Dynamically adjusts the rendering order based on the user's focus. During saccadic movements, points associated with the inferred interest color are re-rendered on top to enable faster identification without distraction.
+                </p>
+            </div>
+            <div class="image-placeholder aspect-video image-mask">
+                <span class="font-mono text-sm text-light">images/rendering-order.jpg</span>
+            </div>
+        </div>
+
+        <!-- Technique 2 -->
+        <div class="technique-row flow-reveal">
+             <div>
+                <span class="technique-num font-mono text-brand">02 / Reference Axis</span>
+                <h3 class="text-subtitle" style="margin-bottom: 1.5rem;">Local axes for precise verification.</h3>
+                <p class="text-lg text-muted">
+                    When fixating on a dense region, a contextual axis overlay appears locally. This supports reading values accurately in visually crowded domains.
+                </p>
+            </div>
+            <div class="image-placeholder aspect-video image-mask">
+                <span class="font-mono text-sm text-light">images/reference-axis.jpg</span>
+            </div>
+        </div>
+
+        <!-- Technique 3 -->
+        <div class="technique-row flow-reveal">
+            <div>
+                <span class="technique-num font-mono text-brand">03 / Hover Speed</span>
+                <h3 class="text-subtitle" style="margin-bottom: 1.5rem;">Accelerated feedback for targets.</h3>
+                <p class="text-lg text-muted">
+                    Tooltips for points of inferred interest appear significantly faster than non-interest points. Evaluated as the most preferred technique, it reduced tooltip delay by 61% overall.
+                </p>
+            </div>
+            <div class="image-placeholder aspect-video image-mask">
+                <span class="font-mono text-sm text-light">images/hover-speed.jpg</span>
+            </div>
+        </div>
+
+        <!-- Technique 4 -->
+        <div class="technique-row flow-reveal">
+             <div>
+                <span class="technique-num font-mono text-brand">04 / Click Accuracy</span>
+                <h3 class="text-subtitle" style="margin-bottom: 1.5rem;">Expanded target geomentry.</h3>
+                <p class="text-lg text-muted">
+                    Adjusts the clickable areas using a weighted Voronoi diagram tailored by interest. Points holding visual attention subtly expand their interaction regions, mitigating misclicks in dense plots.
+                </p>
+            </div>
+            <div class="image-placeholder aspect-video image-mask">
+                <span class="font-mono text-sm text-light">images/click-accuracy.jpg</span>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Results Section -->
+    <section id="performance" class="section container">
+        <div class="flow-reveal" style=" margin-bottom: 4rem;">
+            <span class="font-mono text-sm uppercase text-brand" style="margin-bottom: 1.5rem; display: block;">Evaluation</span>
+            <h2 class="text-title" style="margin-bottom: 1.5rem;">Results & Insights</h2>
+            <p class="text-lg text-muted text-balance">
+                Evaluated with 24 participants, gaze-driven interventions showed measurable improvements for visual analysis tasks and reduced perceived cognitive latency.
+            </p>
+        </div>
+
+        <div class="grid-2" style="gap: 4rem;">
+            <div class="flow-reveal delay-100">
+                <h3 class="text-md font-mono uppercase" style="margin-bottom: 2rem; color: var(--c-text);">Key Findings</h3>
+                
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 class="text-light" style="margin-bottom: 0.75rem; font-weight: 500;">Hover Speed is Most Effective</h4>
+                    <p class="text-sm text-muted">The Hover Speed technique saved over a minute of cumulative delay per user (61% reduction), marking it the preferred interaction. 83.3% of participants reported it as non-distracting and naturally additive.</p>
+                </div>
+                
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 class="text-light" style="margin-bottom: 0.75rem; font-weight: 500;">Gaze Mitigates Complex Cognitive Load</h4>
+                    <p class="text-sm text-muted">In combined technique tests, participants completed complex Verify Object tasks significantly faster (avg 4.9 min vs 6.4 min) and reported the lowest workload (NASA-TLX down to 9.1 vs 12.8).</p>
+                </div>
+                
+                <div style="margin-bottom: 2.5rem;">
+                    <h4 class="text-light" style="margin-bottom: 0.75rem; font-weight: 500;">Varied Impact on Interaction Types</h4>
+                    <p class="text-sm text-muted">While Hover Speed excelled, Rendering Order and Reference Axis updates had mixed results, with some users perceiving them as unexpected visual shifts. However, Click Accuracy helped participants click more confidently once recognized.</p>
+                </div>
+
+                <div>
+                    <h4 class="text-light" style="margin-bottom: 0.75rem; font-weight: 500;">Promising Target Intent Modelling</h4>
+                    <p class="text-sm text-muted">The passive interest model correctly predicted target color focus in 50% of trials, significantly above the 33% random baseline. Over 90% of participants expressed intent to use gaze interactions in future analytical environments.</p>
+                </div>
+            </div>
+
+            <div class="flow-reveal delay-200">
+                <h3 class="text-md font-mono uppercase" style="margin-bottom: 2rem; color: var(--c-text);">Performance Data</h3>
+                <ul class="list-results font-mono text-sm">
+                    <li>
+                        <span>Tooltip Wait Time Reduction</span>
+                        <span class="text-brand">-61%</span>
+                    </li>
+                    <li>
+                        <span>Verify Task Time (All vs Hover)</span>
+                        <span class="text-brand">4.9m vs 6.4m</span>
+                    </li>
+                    <li>
+                        <span>Target Prediction Accuracy</span>
+                        <span class="text-brand">50%</span>
+                    </li>
+                    <li>
+                        <span>NASA-TLX Workload (Combined)</span>
+                        <span class="text-brand">9.1 <span style="font-size:0.8em;color:var(--c-text-muted);">(vs 12.8)</span></span>
+                    </li>
+                    <li>
+                        <span>Future Usage Intent</span>
+                        <span class="text-brand">&gt;90%</span>
+                    </li>
+                </ul>
+                
+                <div class="image-placeholder image-mask aspect-video" style="padding: 2rem; text-align: center; margin-top: 3rem; background: var(--c-bg-surface); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1rem;">
+                    <span class="font-mono text-sm text-light">images/completion-time-chart.png</span>
+                    <p class="text-sm text-muted text-balance mt-4">Mean (±SD) completion time indicates significant pairwise differences (* p < .05)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team / Authors Section -->
+    <section id="team" class="section container">
+        <div class="flow-reveal">
+            <span class="font-mono text-sm uppercase text-brand" style="margin-bottom: 1.5rem; display: block;">The Team</span>
+            <h2 class="text-title" style="margin-bottom: 4rem;">Authors</h2>
+        </div>
+
+        <div class="team-grid">
+            <!-- Tania Sanai Shimabukuro -->
+            <div class="team-member flow-reveal">
+                <div class="team-avatar">
+                    <img src="images/tania-shimabukuro.jpg" alt="Tania Sanai Shimabukuro" class="team-photo" onerror="this.style.opacity=0" />
+                    <span class="avatar-initials">TS</span>
+                </div>
+                <div>
+                    <h3 class="team-name">Tania Sanai Shimabukuro</h3>
+                    <p class="team-role text-muted">Researcher, MSc</p>
+                    <p class="text-sm text-light">Ontario Tech University</p>
+                </div>
+            </div>
+
+            <!-- Feiyang Wang -->
+            <div class="team-member flow-reveal delay-100">
+                <div class="team-avatar">
+                    <img src="images/feiyang-wang.jpg" alt="Feiyang Wang" class="team-photo" onerror="this.style.opacity=0" />
+                    <span class="avatar-initials">FW</span>
+                </div>
+                <div>
+                    <h3 class="team-name">Feiyang Wang</h3>
+                    <p class="team-role text-muted">Researcher, MSc</p>
+                    <p class="text-sm text-light">Ontario Tech University</p>
+                </div>
+            </div>
+
+            <!-- Mariana Shimabukuro -->
+            <div class="team-member flow-reveal">
+                <div class="team-avatar">
+                    <img src="images/mariana-shimabukuro.jpg" alt="Mariana Shimabukuro" class="team-photo" onerror="this.style.opacity=0" />
+                    <span class="avatar-initials">MS</span>
+                </div>
+                <div>
+                    <h3 class="team-name">Mariana Shimabukuro</h3>
+                    <p class="team-role text-muted">Researcher, Associate Professor</p>
+                    <p class="text-sm text-light">Ontario Tech University</p>
+                    <div class="team-socials">
+                        <a href="mailto:mariana.shimabukuro@ontariotechu.ca" class="team-link" title="Email"><i class="fas fa-envelope"></i></a>
+                        <a href="https://orcid.org/0000-0003-4104-0781" target="_blank" class="team-link" title="ORCID"><i class="fab fa-orcid"></i></a>
+                        <a href="https://www.linkedin.com/in/makemi" target="_blank" class="team-link" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://scholar.google.com/citations?hl=en&user=FSSbcSgAAAAJ" target="_blank" class="team-link" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                        <a href="https://github.com/maakemi" target="_blank" class="team-link" title="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://www.shimabukuro.ca/" target="_blank" class="team-link" title="Website"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Christopher Collins -->
+            <div class="team-member flow-reveal delay-100">
+                <div class="team-avatar">
+                    <img src="images/christopher-collins.jpg" alt="Christopher Collins" class="team-photo" onerror="this.style.opacity=0" />
+                    <span class="avatar-initials">CC</span>
+                </div>
+                <div>
+                    <h3 class="team-name">Christopher Collins</h3>
+                    <p class="team-role text-muted">Professor</p>
+                    <p class="text-sm text-light">Ontario Tech University</p>
+                    <div class="team-socials">
+                        <a href="mailto:christopher.collins@ontariotechu.ca" class="team-link" title="Email"><i class="fas fa-envelope"></i></a>
+                        <a href="https://orcid.org/0000-0002-4520-7000" target="_blank" class="team-link" title="ORCID"><i class="fab fa-orcid"></i></a>
+                        <a href="https://www.linkedin.com/in/christophercollins/" target="_blank" class="team-link" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://scholar.google.ca/citations?user=yHRw4eMAAAAJ&hl=en" target="_blank" class="team-link" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                        <a href="https://github.com/vialab" target="_blank" class="team-link" title="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://vialab.ca/" target="_blank" class="team-link" title="Website"><i class="fas fa-globe"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Citation Section -->
+    <section class="section container">
+        <div class="flow-reveal">
+            <h2 class="text-title" style="margin-bottom: 2rem;">Citation</h2>
+            
+            <div class="citation-toggle">
+                <button class="cit-btn active" data-type="bibtex">BibTeX</button>
+                <button class="cit-btn" data-type="apa">APA</button>
+            </div>
+            
+            <div class="citation-box text-sm">
+                <button class="citation-copy-btn" title="Copy to clipboard">
+                    <i class="fas fa-copy"></i>
+                </button>
+                <div id="cit-apa" class="citation-content">T. S. Shimabukuro, F. Wang, M. Shimabukuro, and C. Collins, "Designing Implicit Gaze-Aware Interactions for Scatterplots," 2026.</div>
+                <div id="cit-bibtex" class="citation-content font-mono whitespace-pre text-sm active">@inproceedings{shimabukuro2026gaze,
+  title={Designing Implicit Gaze-Aware Interactions for Scatterplots},
+  author={Shimabukuro, Tania Sanai and Wang, Feiyang and Shimabukuro, Mariana and Collins, Christopher},
+  year={2026}
+}</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div>
+                <div class="footer-logo font-mono text-lg" style="margin-bottom: 0.5rem;">GAZE<span style="color: var(--c-brand);">AWARE</span> SCATTERPLOTS</div>
+                <p class="footer-copy font-mono">&copy; 2026 Ontario Tech University. All rights reserved.</p>
+            </div>
+            
+            <nav class="footer-nav font-mono">
+                <a href="#" target="_blank"><i class="fa fa-file-pdf"></i> Paper</a>
+                <a href="#" target="_blank"><i class="fab fa-github"></i> Source</a>
+            </nav>
+        </div>
+    </footer>
+
+    <!-- External JS for Scroll/Mouse Events -->
+    <script src="main.js"></script>
+</body>
+</html>
