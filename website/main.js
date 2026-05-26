@@ -128,7 +128,7 @@ function initHeroBackground() {
 
     // Color definitions mimicking the visual (Orange, Blue, Green)
     // Assigned manually to clusters to mimic structural data
-    const colors = ['#ffbfa8', '#aebce3', '#bce3c5'];
+    const colors = ['#f97316', '#3b82f6', '#10b981'];
 
     const numDots = 150;
     const dotsData = [];
@@ -212,10 +212,10 @@ function initHeroBackground() {
 
         // Optional: Highlight cells corresponding to the target color during Click Accuracy
         if (activeTechnique === 3) {
-            voronoiGroup.selectAll('.voronoi-path').attr('stroke', d => d.color === currentTargetColor ? 'rgba(174, 188, 227, 0.6)' : 'rgba(77, 70, 79, 0.1)')
+            voronoiGroup.selectAll('.voronoi-path').attr('stroke', d => d.color === currentTargetColor ? 'rgba(139, 92, 246, 0.6)' : 'rgba(15, 23, 42, 0.1)')
                 .attr('stroke-width', d => d.color === currentTargetColor ? '2px' : '1px');
         } else {
-            voronoiGroup.selectAll('.voronoi-path').attr('stroke', 'rgba(77, 70, 79, 0.15)').attr('stroke-width', '1.5px');
+            voronoiGroup.selectAll('.voronoi-path').attr('stroke', 'rgba(15, 23, 42, 0.2)').attr('stroke-width', '1.5px');
         }
     };
 
