@@ -451,3 +451,13 @@ function initHeroBackground() {
     gsap.to(gazeRing, { opacity: 1, duration: 1, delay: 0.5 });
     setTimeout(moveGaze, 100);
 }
+
+// Video expand toggle
+const videoWrapper = document.getElementById('video-wrapper');
+const videoExpandBtn = document.getElementById('video-expand-btn');
+videoExpandBtn.addEventListener('click', () => {
+    const expanded = videoWrapper.classList.toggle('expanded');
+    videoExpandBtn.innerHTML = expanded
+        ? '<i class="fas fa-compress"></i>'
+        : '<i class="fas fa-expand"></i>';
+});

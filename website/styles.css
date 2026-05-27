@@ -383,7 +383,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--c-border);
+    box-shadow: 0 0 0 1px var(--c-border);
+    border-radius: 12px;
     position: relative;
     overflow: hidden;
 }
@@ -594,6 +595,59 @@ body {
     padding-bottom: 1rem;
     margin-bottom: 1rem;
     border-bottom: 1px solid var(--c-border);
+}
+
+/* =========================================
+   Video Presentation
+   ========================================= */
+.video-panel {
+    background: var(--c-bg-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.video-wrapper-outer {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px var(--c-border);
+    width: 55%;
+    margin: 0 auto;
+    position: relative;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.video-wrapper-outer.expanded {
+    width: 100%;
+}
+
+.video-expand-btn {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: rgba(15, 23, 42, 0.7);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    transition: background 0.2s ease;
+    z-index: 10;
+}
+
+.video-expand-btn:hover {
+    background: rgba(15, 23, 42, 0.9);
+}
+
+.video-inner {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
 }
 
 /* =========================================
