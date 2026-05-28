@@ -12,7 +12,7 @@ Tania Sanai Shimabukuro, Feiyang Wang, Mariana Shimabukuro, Christopher Collins
 
 A task-driven approach to designing implicit gaze-aware interactions for scatterplot analysis. Building on scatterplot task taxonomies, this work presents four interaction techniques — Rendering Order, Reference Axis, Hover Speed, and Click Accuracy — that adapt the visualization interface in real time using a gaze-based interest model, without requiring explicit input from the user.
 
-**[Project Website](https://vialab.github.io/GazeAwareScatterplots/website/)**
+**[Project Website](https://vialab.github.io/GazeAwareScatterplots)**
 
 ---
 
